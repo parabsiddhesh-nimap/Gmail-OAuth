@@ -15,7 +15,7 @@ app.use(session({
     resave: false ,
     saveUninitialized: true,
     cookie: {secure: false}
-  }))
+}))
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -45,13 +45,19 @@ app.get('/google/callback',
 }));
 
 app.get('/success',(req,res) => {
-    res.send("successfull");
+    res.render('success')
 });
 
-app.post("/logout", (req,res) => {
-    req.logOut()
-    res.redirect("/login")
-    console.log(`-------> User Logged out`)
+app.get("/logout", (req,res) => {
+    console.log(req.session)
+    req.logout((err) => {
+        if (err) {
+            return res.send('Could not log out');
+        }
+        req.session = null; // Clear the session
+        res.redirect('/');
+    });
+    console.log('logout');
  })
 
 app.listen(PORT,(err) => {

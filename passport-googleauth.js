@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 require('dotenv').config();
 
 console.log(`
@@ -11,8 +11,7 @@ ${process.env.GOOGLE_CALLBACK_URL}
 passport.use(new GoogleStrategy({
     clientID : process.env.GOOGLE_CLIENT_ID,
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL : process.env.GOOGLE_CALLBACK_URL ,
-    passReqToCallback : true
+    callbackURL : process.env.GOOGLE_CALLBACK_URL 
 }, function(request,accessToken,refreshToken,profile,done){
     console.log(profile);
     return done(null,profile)
